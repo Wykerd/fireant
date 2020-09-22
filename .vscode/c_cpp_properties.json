@@ -1,0 +1,18 @@
+{
+    "configurations": [
+      {
+        "name": "Linux",
+        "intelliSenseMode": "gcc-x86",
+        "includePath": ["${workspaceFolder}", "${workspaceFolder}/deps/quickjs/src"],
+        "defines": ["FA_PLATFORM", "FA_VERSION_MAJOR", "FA_VERSION_MINOR", "FA_VERSION_PATCH", "FA_VERSION_SUFFIX", "QJS_VERSION_STR=\"-rc.1\""],
+        "cStandard": "c11",
+        "browse": {
+          "path": ["${workspaceFolder}"],
+          "limitSymbolsToIncludedHeaders": true,
+          "databaseFilename": ""
+        }
+      }
+    ],
+    "version": 4
+}
+  
