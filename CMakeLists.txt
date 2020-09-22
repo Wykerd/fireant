@@ -9,9 +9,10 @@ endif()
 message(STATUS "Building in ${CMAKE_BUILD_TYPE} mode")
 message(STATUS "Building with ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION} on ${CMAKE_SYSTEM} for platform ${CMAKE_SYSTEM_NAME}")
 
-add_library(fireant SHARED
+add_library(fireant STATIC
     src/runtime.c
     src/version.c
+    src/utils.c
 )
 
 add_executable(fa-cli
@@ -37,5 +38,5 @@ set_target_properties(fireant PROPERTIES
     C_STANDARD_REQUIRED ON
 )
 
-target_link_libraries(fireant quickjs m)
+target_link_libraries(fireant quickjs m uv)
 target_link_libraries(fa-cli fireant)

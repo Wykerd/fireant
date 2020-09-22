@@ -33,6 +33,14 @@ JSValue fa_eval_file (JSContext *ctx, const char *filename, int eval_flags, int 
 
 JSValue fa_eval_binary (JSContext *ctx, const uint8_t *buf, size_t buf_len);
 
+JSValue fa_eval_buf (
+    JSContext *ctx, 
+    const void *buf, 
+    int buf_len,
+    const char *filename, 
+    int eval_flags
+);
+
 const char *fa_get_ver_str (void);
 const int fa_get_maj_ver (void);
 const int fa_get_min_ver (void);

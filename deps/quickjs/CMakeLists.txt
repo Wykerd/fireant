@@ -53,3 +53,7 @@ if(UNIX)
   find_package(Threads)
   target_link_libraries(quickjs ${CMAKE_DL_LIBS} m Threads::Threads)
 endif()
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    target_link_libraries(qucikjs atomic)
+endif()
