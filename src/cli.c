@@ -7,15 +7,13 @@ int main () {
 
     fa_runtime_t *rt = fa_new_runtime();
 
-    char *script = "10 + 2";
+    char *script = "1 + 2";
 
-    JSValue eval = fa_eval_buf(fa_get_context(rt), script, strlen(script), "<input>", JS_EVAL_TYPE_GLOBAL);
+    JSValue eval = fa_eval_buf(fa_get_context(rt), script, strlen(script), "<input>", JS_EVAL_TYPE_MODULE);
 
-    int i; 
-    
-    JS_ToInt32(fa_get_context(rt), &i, eval);
+    const char *e = JS_ToCString(fa_get_context(rt), eval);
 
-    printf("%d\n", i);
+    printf("Value: %s\n", e);
 
     fa_run(rt);
 }

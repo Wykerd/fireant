@@ -1,7 +1,7 @@
 #ifndef FA_UTILS_H
 #define FA_UTILS_H
 
-#include <quickjs/quickjs.h>
+#include <quickjs.h>
 
 #define FA_CHECK(x) js_likely(x)
 #define FA_NULL_CHECK(x) FA_CHECK(x != NULL)

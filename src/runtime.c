@@ -1,5 +1,6 @@
 #include "runtime.h"
 #include "utils.h"
+#include "modules.h"
 #include <stdlib.h>
 #include <string.h>
 #include <quickjs/quickjs.h>
@@ -62,7 +63,7 @@ fa_runtime_t *fa_new_runtime_impl (int is_worker) {
     qrt->event_handles.stop.data = qrt;
 
     /* loader for ES6 modules */
-    // JS_SetModuleLoaderFunc(qrt->rt, NULL, loader, qrt);
+    JS_SetModuleLoaderFunc(qrt->rt, NULL, fa_module_loader, qrt);
 
     /* unhandled promise rejection tracker */
     // JS_SetHostPromiseRejectionTracker(qrt->rt, handler, NULL);
@@ -195,7 +196,7 @@ JSValue fa_eval_buf (
         val = JS_Eval(ctx, buf, buf_len, filename, eval_flags | JS_EVAL_FLAG_COMPILE_ONLY);
         if (!JS_IsException(val)) {
             // add metadata to the import object
-            // js_module_set_import_meta(ctx, val, 1, 1);
+            js_module_set_import_meta(ctx, val, 1, 1);
             // run the compiled function
             val = JS_EvalFunction(ctx, val);
         }
@@ -203,6 +204,9 @@ JSValue fa_eval_buf (
         // this is not a module so compile and run
         val = JS_Eval(ctx, buf, buf_len, filename, eval_flags);
     }
+    // dump the error to stderr
+    if (JS_IsException(val))
+        js_std_dump_error(ctx);
     
     return val;
 }

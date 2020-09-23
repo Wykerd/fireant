@@ -1,7 +1,7 @@
 #ifndef FIREANT_H
 #define FIREANT_H
 
-#include <quickjs/quickjs.h>
+#include <quickjs.h>
 #include <uv.h>
 
 struct fa_runtime_s {
