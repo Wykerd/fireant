@@ -1,3 +1,4 @@
+#include "fireant.h"
 #include "utils.h"
 
 static void js_dump_obj(JSContext *ctx, FILE *f, JSValueConst val)
@@ -13,7 +14,7 @@ static void js_dump_obj(JSContext *ctx, FILE *f, JSValueConst val)
     }
 }
 
-static void js_std_dump_error1(JSContext *ctx, JSValueConst exception_val)
+void fa_dump_error1(JSContext *ctx, JSValueConst exception_val)
 {
     JSValue val;
     int is_error;
@@ -29,11 +30,28 @@ static void js_std_dump_error1(JSContext *ctx, JSValueConst exception_val)
     }
 }
 
-void js_std_dump_error(JSContext *ctx)
+void fa_dump_error(JSContext *ctx)
 {
     JSValue exception_val;
     
     exception_val = JS_GetException(ctx);
-    js_std_dump_error1(ctx, exception_val);
+    fa_dump_error1(ctx, exception_val);
     JS_FreeValue(ctx, exception_val);
+}
+
+int fa_eval_check_exception (JSContext *ctx, JSValue val) {
+    int ret;
+    if (JS_IsException(val)) {
+        fa_dump_error(ctx);
+        ret = -1;
+    } else {
+        ret = 0;
+    }
+    return ret;
+}
+
+int fa_eval_std_free (JSContext *ctx, JSValue val) {
+    int ex = fa_eval_check_exception(ctx, val);
+    JS_FreeValue(ctx, val);
+    return ex;
 }

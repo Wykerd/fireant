@@ -49,4 +49,7 @@ const char *fa_get_qjs_ver (void);
 
 JSModuleDef *js_init_module_std (JSContext *ctx, const char *module_name);
 
+int fa_eval_check_exception (JSContext *ctx, JSValue val);
+int fa_eval_std_free (JSContext *ctx, JSValue val);
+
 #endif

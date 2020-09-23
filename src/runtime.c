@@ -143,7 +143,7 @@ void fa_execute_jobs (JSContext *ctx) {
         err = JS_ExecutePendingJob(JS_GetRuntime(ctx), &ctx1);
         if (err <= 0) {
             if (err < 0)
-                js_std_dump_error(ctx1);
+                fa_dump_error(ctx1);
             break;
         }
     }
@@ -193,20 +193,15 @@ JSValue fa_eval_buf (
     if ((eval_flags & JS_EVAL_TYPE_MASK) == JS_EVAL_TYPE_MODULE) {
         /* for the modules, we compile then run to be able to set
            import.meta */
-        val = JS_Eval(ctx, buf, buf_len, filename, eval_flags | JS_EVAL_FLAG_COMPILE_ONLY);
+        val = JS_Eval(ctx, buf, buf_len, filename,
+                      eval_flags | JS_EVAL_FLAG_COMPILE_ONLY);
         if (!JS_IsException(val)) {
-            // add metadata to the import object
             js_module_set_import_meta(ctx, val, 1, 1);
-            // run the compiled function
             val = JS_EvalFunction(ctx, val);
         }
     } else {
-        // this is not a module so compile and run
         val = JS_Eval(ctx, buf, buf_len, filename, eval_flags);
     }
-    // dump the error to stderr
-    if (JS_IsException(val))
-        js_std_dump_error(ctx);
     
     return val;
 }

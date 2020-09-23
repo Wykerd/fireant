@@ -9,9 +9,9 @@ int main () {
 
     js_init_module_std(fa_get_context(rt), "std");
 
-    char *script = "import { print } from 'std'; print('Hello World', 123);";
+    char *script = "import yes from '../test.js'; import { print } from 'std'; print('Hello World', 123, yes());";
 
-    JSValue eval = fa_eval_buf(fa_get_context(rt), script, strlen(script), "<input>", JS_EVAL_TYPE_MODULE);
+    fa_eval_std_free(fa_get_context(rt), fa_eval_buf(fa_get_context(rt), script, strlen(script), "<input>", JS_EVAL_TYPE_MODULE));
 
     fa_run(rt);
 

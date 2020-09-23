@@ -8,6 +8,8 @@
 #define FA_CHECK_RETURN(x) if (FA_CHECK(x)) { return NULL; }
 #define FA_NULL_RETURN(x) FA_CHECK_RETURN(!FA_NULL_CHECK(x))
 
-void js_std_dump_error(JSContext *ctx);
+void fa_dump_error1(JSContext *ctx, JSValueConst exception_val);
+
+void fa_dump_error(JSContext *ctx);
 
 #endif
