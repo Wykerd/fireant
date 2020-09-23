@@ -47,4 +47,6 @@ const int fa_get_min_ver (void);
 const int fa_get_patch_ver (void);
 const char *fa_get_qjs_ver (void);
 
+JSModuleDef *js_init_module_std (JSContext *ctx, const char *module_name);
+
 #endif

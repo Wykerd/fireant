@@ -14,6 +14,7 @@ add_library(fireant STATIC
     src/version.c
     src/utils.c
     src/modules.c
+    src/std.c
 )
 
 add_executable(fa-cli
