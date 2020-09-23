@@ -17,6 +17,12 @@ add_library(fireant STATIC
     src/std.c
 )
 
+add_executable(fa-c
+    src/compiler.c
+    src/utils.c
+    src/modules.c
+)
+
 add_executable(fa-cli
     src/cli.c
 )
@@ -42,3 +48,4 @@ set_target_properties(fireant PROPERTIES
 
 target_link_libraries(fireant quickjs m uv)
 target_link_libraries(fa-cli fireant)
+target_link_libraries(fa-c fireant)

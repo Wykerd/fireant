@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <string.h>
 
-static uint8_t *js_load_file(JSContext *ctx, size_t *pbuf_len, const char *filename)
+uint8_t *fa_load_file(JSContext *ctx, size_t *pbuf_len, const char *filename)
 {
     FILE *f;
     uint8_t *buf;
@@ -180,7 +180,7 @@ JSModuleDef *fa_module_loader (
         uint8_t *buf;
         JSValue func_val;
     
-        buf = js_load_file(ctx, &buf_len, module_name);
+        buf = fa_load_file(ctx, &buf_len, module_name);
         if (!buf) {
             JS_ThrowReferenceError(ctx, "could not load module filename '%s'",
                                    module_name);

@@ -20,4 +20,6 @@ typedef JSModuleDef *(JSInitModuleFunc)(
     const char *module_name
 );
 
+uint8_t *fa_load_file (JSContext *ctx, size_t *pbuf_len, const char *filename);
+
 #endif
