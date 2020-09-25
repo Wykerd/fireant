@@ -4,7 +4,7 @@
         "name": "Linux",
         "intelliSenseMode": "gcc-x86",
         "includePath": ["${workspaceFolder}", "${workspaceFolder}/deps/quickjs/src"],
-        "defines": ["FA_PLATFORM", "FA_VERSION_MAJOR", "FA_VERSION_MINOR", "FA_VERSION_PATCH", "FA_VERSION_SUFFIX", "QJS_VERSION_STR=\"-rc.1\""],
+        "defines": ["FA_PLATFORM", "FA_VERSION_MAJOR", "FA_VERSION_MINOR", "FA_VERSION_PATCH", "FA_VERSION_SUFFIX", "QJS_VERSION_STR", "PATH_MAX"],
         "cStandard": "c11",
         "browse": {
           "path": ["${workspaceFolder}"],

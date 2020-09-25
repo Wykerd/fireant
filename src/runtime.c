@@ -6,6 +6,8 @@
 #include <quickjs/quickjs.h>
 #include <assert.h>
 
+static const char fa_sig[] = "FaBC";
+
 static void fa_uv_stop (uv_async_t *handle) {
     fa_runtime_t *qrt = handle->data;
     assert(qrt != NULL);
@@ -204,4 +206,79 @@ JSValue fa_eval_buf (
     }
     
     return val;
+}
+
+void fa_eval_binary (
+    JSContext *ctx, 
+    const uint8_t *buf, 
+    size_t buf_len, 
+    int load_only
+) {
+    JSValue obj, val;
+    obj = JS_ReadObject(ctx, buf, buf_len, JS_READ_OBJ_BYTECODE);
+    if (JS_IsException(obj))
+        goto exception;
+    if (load_only) {
+        if (JS_VALUE_GET_TAG(obj) == JS_TAG_MODULE) {
+            js_module_set_import_meta(ctx, obj, 0, 0);
+        }
+    } else {
+        if (JS_VALUE_GET_TAG(obj) == JS_TAG_MODULE) {
+            if (JS_ResolveModule(ctx, obj) < 0) {
+                JS_FreeValue(ctx, obj);
+                goto exception;
+            }
+            js_module_set_import_meta(ctx, obj, 0, 1);
+        }
+        val = JS_EvalFunction(ctx, obj);
+        if (JS_IsException(val)) {
+        exception:
+            fa_dump_error(ctx);
+            exit(1);
+        }
+        JS_FreeValue(ctx, val);
+    }
+}
+
+void fa_eval_bin_bundle (
+    JSContext *ctx, 
+    const uint8_t *buf, 
+    size_t buf_len, 
+    int load_only
+) {
+    assert(buf_len > 3);
+    
+    int sig_ver = memcmp(buf, fa_sig, 4);
+
+    assert(sig_ver == 0);
+
+    size_t cursor = 4;
+
+    size_t module_len;
+    
+    while (1) {
+        memcpy(&module_len, buf + cursor, sizeof(size_t));
+
+        cursor += sizeof(size_t);
+
+        char *mod = malloc(module_len + 1);
+
+        char mod_load_only;
+
+        memcpy(&mod_load_only, buf + cursor, 1);
+
+        cursor++;
+
+        memcpy(mod, buf + cursor, module_len);
+
+        cursor += module_len;
+
+        int end = cursor >= (buf_len - 1);
+
+        fa_eval_binary(ctx, mod, module_len, !end | load_only | mod_load_only);
+
+        free(mod);
+
+        if (end) break;
+    };
 }

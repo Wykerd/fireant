@@ -48,4 +48,4 @@ set_target_properties(fireant PROPERTIES
 
 target_link_libraries(fireant quickjs m uv)
 target_link_libraries(fa-cli fireant)
-target_link_libraries(fa-c fireant)
+target_link_libraries(fa-c quickjs m)

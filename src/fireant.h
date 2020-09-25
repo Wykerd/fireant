@@ -30,9 +30,18 @@ JSContext *fa_get_context (fa_runtime_t *rt);
 fa_runtime_t *fa_get_runtime (JSContext *ctx);
 
 JSValue fa_eval_file (JSContext *ctx, const char *filename, int eval_flags, int is_main, char *override_filename);
-
-JSValue fa_eval_binary (JSContext *ctx, const uint8_t *buf, size_t buf_len);
-
+void fa_eval_binary (
+    JSContext *ctx, 
+    const uint8_t *buf, 
+    size_t buf_len, 
+    int load_only
+);
+void fa_eval_bin_bundle (
+    JSContext *ctx, 
+    const uint8_t *buf, 
+    size_t buf_len, 
+    int load_only
+);
 JSValue fa_eval_buf (
     JSContext *ctx, 
     const void *buf, 
