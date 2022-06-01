@@ -1,3 +1,5 @@
+**ABANDONED! Please check out my newer project [Quark](https://github.com/Wykerd/quark) which replaces this one** 
+
 # FireAnt
 
 A small, embeddable and secure JavaScript/TypeScript runtime using QuickJS and Unicorn Velociraptor. Inspired by and based of txiki.js.
